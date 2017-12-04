@@ -265,7 +265,7 @@ function registerAgent(app) {
    *   }
    * }
    */
-  function sync1(data, response) {
+  function sync(data, response) {
     console.log('sync', JSON.stringify(data));
     let devices = app.smartHomePropertiesSync(data.uid);
     if (!devices) {
@@ -296,7 +296,7 @@ function registerAgent(app) {
     return deviceProps;
   }
 
-  function sync(data, response) {
+  function sync1(data, response) {
     console.log('Fake Sync', JSON.stringify(data));
     let device1 = {
       "type": "action.devices.types.LIGHT",
