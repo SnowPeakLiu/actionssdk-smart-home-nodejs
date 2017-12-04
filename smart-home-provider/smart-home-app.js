@@ -81,12 +81,12 @@ function registerAgent(app) {
           //   requestId: reqdata.requestId
           // }, response);
 
-          fakeSync({
+          sync({
             uid: uid,
             auth: authToken,
             requestId: reqdata.requestId
           }, response);
-          
+
           break;
         case "action.devices.QUERY":
           console.log('post /smarthome QUERY');
@@ -265,7 +265,7 @@ function registerAgent(app) {
    *   }
    * }
    */
-  function sync(data, response) {
+  function sync1(data, response) {
     console.log('sync', JSON.stringify(data));
     let devices = app.smartHomePropertiesSync(data.uid);
     if (!devices) {
@@ -296,7 +296,7 @@ function registerAgent(app) {
     return deviceProps;
   }
 
-  function fakeSync(data, response) {
+  function sync(data, response) {
     console.log('Fake Sync', JSON.stringify(data));
     let device1 = {
       "type": "action.devices.types.LIGHT",
