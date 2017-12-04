@@ -1,3 +1,5 @@
+import { debug } from 'util';
+
 // Copyright 2017, Google, Inc.
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -71,11 +73,20 @@ function registerAgent(app) {
            *  }]
            * }
            */
-          sync({
+
+
+          // sync({
+          //   uid: uid,
+          //   auth: authToken,
+          //   requestId: reqdata.requestId
+          // }, response);
+
+          fakeSync({
             uid: uid,
             auth: authToken,
             requestId: reqdata.requestId
           }, response);
+          
           break;
         case "action.devices.QUERY":
           console.log('post /smarthome QUERY');
@@ -282,6 +293,50 @@ function registerAgent(app) {
     };
     console.log('sync response', JSON.stringify(deviceProps));
     response.status(200).json(deviceProps);
+    return deviceProps;
+  }
+
+  function fakeSync(data, response) {
+    console.log('Fake Sync', JSON.stringify(data));
+    let device1 = {
+      "type": "action.devices.types.LIGHT",
+      "traits": [
+          "action.devices.traits.OnOff",
+          "action.devices.traits.Brightness"
+      ],
+      "name": {
+          "defaultNames": [
+              "Smart Light"
+          ],
+          "name": "Smart Light 0",
+          "nicknames": [
+              "Hue Colour"
+          ]
+      },
+      "willReportState": false,
+      "roomHint": "",
+      "deviceInfo": {
+          "manufacturer": "Smart Home Provider",
+          "model": "g1337",
+          "swVersion": "1.0.11",
+          "hwVersion": "1.0"
+      },
+      "customData": {
+          "smartHomeProviderId": "FkldJVJCmDNSaoLkoq0txiz8Byf2Hr"
+      },
+      "id": "ZB:6c6c0b"
+    };
+    let deviceList = [];
+    deviceList.push(device1);
+    let deviceProps = {
+      requestId: data.requestId,
+      payload: {
+        agentUserId: data.uid,
+        devices: deviceList
+      }
+    };
+    console.log('Fake sync response', JSON.stringify(deviceProps));
+    response.state(200).json(deviceProps);
     return deviceProps;
   }
 
